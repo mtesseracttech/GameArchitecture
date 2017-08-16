@@ -6,7 +6,9 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -27,7 +29,7 @@ public class Game
 
 
 
-	static private Random random = new Random( 0 ); // seed for repeatability.
+	private static Random random = new Random( 0 ); // seed for repeatability.
 	
 	private Window window;
 	
@@ -39,6 +41,8 @@ public class Game
 	private Paddle rightPaddle;
 	private Booster booster1;
 	private Booster booster2;
+
+	private float timePerUpdate; //Time per update in seconds
 	
 	public Game()
 	{
@@ -47,7 +51,6 @@ public class Game
 
 	private void Build() 
 	{
-		
 		ball = new Ball( "Ball", "ball.png" ); // orbitting the window centre
 		leftPaddle = new AutoPaddle( "Left", 10, 208, "paddle.png", ball );
 		rightPaddle = new AutoPaddle( "Right", 622, 208, "paddle.png", ball );
@@ -57,28 +60,70 @@ public class Game
 
 		booster1 = new Booster( "Booster", 304, 96, "booster.png", ball );
 		booster2 = new Booster( "Booster", 304, 384, "booster.png", ball );
-		
 	}
 	
 	public void Run() {
-		Time.Timeout( "Reset", 1.0f, ball.Restart );	
+		Time.Timeout( "Reset", 1.0f, ball.Restart );
+		
+		timePerUpdate = 0.016f;
+		
+		double previous = Time.Now;
+		double lag = 0.0;
 		
 		bool running = true;
-		while( running ) { // gameloop
-			Application.DoEvents(); // empty forms event queue
-
-			// can close
-			if( Input.Key.Enter( Keys.Escape ) ) {
-				running = false;
+		while (running)
+		{
+			double current = Time.Now;
+			double elapsed = current - previous;
+			previous = current;
+			lag += elapsed;
+			
+			ProcessInput();
+			
+			while (lag >= timePerUpdate)
+			{
+				Update();
+				lag -= timePerUpdate;
 			}
 			
-			window.Refresh(); // use refresh for a frame based update, async
+			TriggerRender();
 
+			running = window.Visible;
 		}
 	}
 
-	public void Update( Graphics pGraphics )
+	public void ProcessInput()
 	{
+		Application.DoEvents();
+	}
+
+	public void Update()
+	{
+		Time.Update();
+		
+		FrameCounter.Update();
+		
+		
+		ball.Update();
+		leftPaddle.Update();
+		rightPaddle.Update();
+		booster1.Update();
+		booster2.Update();
+		leftScore.Update();
+		rightScore.Update();
+		
+		if( ball.Position.X < 0 ) 
+		{
+			rightPaddle.IncScore();
+			ball.Reset();
+		}		
+		if( ball.Position.X > 640-16 ) 
+		{
+			leftPaddle.IncScore();
+			ball.Reset();
+		}
+		
+		/*
 		Time.Update();
 		FrameCounter.Update();
 		
@@ -109,6 +154,25 @@ public class Game
 		Thread.Sleep( 16 ); // roughly 60 fps
 		
 		//Console.WriteLine("Updating");
+		*/
+
+		Thread.Sleep(16);
+	}
+
+	private void TriggerRender()
+	{
+		window.Refresh();
+	}
+
+	public void Render(Graphics graphics)
+	{
+		ball.Render(graphics);
+		leftPaddle.Render(graphics);
+		rightPaddle.Render(graphics);
+		booster1.Render(graphics);
+		booster2.Render(graphics);
+		leftScore.Render(graphics);
+		rightScore.Render(graphics);
 	}
 	
 	public void Close() {

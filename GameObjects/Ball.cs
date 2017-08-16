@@ -29,7 +29,7 @@ public class Ball
 		Reset(); // sets pos and vel
 	}
 	
-	public void Update( Graphics graphics )
+	public void Update()
 	{
 		// input
 		if( Input.Key.Enter( Keys.P ) ) {
@@ -55,10 +55,12 @@ public class Ball
 		}
 		
 		// see game and paddles
-		
-		// graphics
+	}
+
+	public void Render(Graphics graphics)
+	{
 		graphics.DrawImage( image, position.X, position.Y );
-	}	
+	}
 
 	public bool Intersects( Vec2 otherPosition, Vec2 otherSize ) {
 		return

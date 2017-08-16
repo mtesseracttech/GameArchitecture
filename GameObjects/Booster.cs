@@ -26,7 +26,7 @@ public class Booster
 		ball = pBall;		
 	}
 	
-	public void Update( Graphics graphics )
+	public void Update()
 	{
 		// input
 
@@ -39,11 +39,12 @@ public class Booster
 			ball.Boost();
 			Time.Timeout( "Deboosting", 0.5f, DeBoost );
 		}
-
-		// Render
-		graphics.DrawImage( image, position.X, position.Y );
-	}	
+	}
 	
+	public void Render(Graphics graphics)
+	{
+		graphics.DrawImage( image, position.X, position.Y );
+	}
 	
 	// Event handlers
 

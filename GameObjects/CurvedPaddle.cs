@@ -15,7 +15,7 @@ public class CurvedPaddle : Paddle
 	{
 	}
 	
-	override public void Update( Graphics graphics )
+	public override void Update()
 	{
 		// input
 		
@@ -40,8 +40,5 @@ public class CurvedPaddle : Paddle
 		// collisions
 		if( position.Y < 0 ) position.Y = 0;
 		if( position.Y > 416 ) position.Y = 416;
-		
-		// render
-		graphics.DrawImage( image, position.X, position.Y );
 	}	
 }

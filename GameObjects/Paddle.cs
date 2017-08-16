@@ -32,7 +32,7 @@ public class Paddle
 		score = 0;		
 	}
 	
-	virtual public void Update( Graphics graphics )
+	virtual public void Update()
 	{
 		// input
 		
@@ -56,10 +56,12 @@ public class Paddle
 		// collisions
 		if( position.Y < 0 ) position.Y = 0;
 		if( position.Y > 416 ) position.Y = 416;
-		
-		// render
+	}
+	
+	public void Render(Graphics graphics)
+	{
 		graphics.DrawImage( image, position.X, position.Y );
-	}	
+	}
 	
 	public void IncScore() 
 	{

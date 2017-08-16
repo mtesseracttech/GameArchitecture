@@ -25,10 +25,9 @@ public class Window : Form
 		Input.Key.Init( this );
 	}
 	
-	override
-	protected void OnPaint( PaintEventArgs e )  // adapter for caching repaints for updates
+	protected override void OnPaint( PaintEventArgs e )  // adapter for caching repaints for updates
 	{
-		game.Update( e.Graphics );
+		game.Render(e.Graphics);
 	}
 			
 }
