@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,23 +16,21 @@ using System.Windows.Forms;
 public class Game
 {
 	[STAThread] // needed to use wpf Keyboard.isKeyPressed when single threaded !
-	static
-	public void Main() {
+	public static void Main() 
+	{
 		Console.WriteLine( "Starting Game, close with Escape");
 		Game game;
-			game = new Game();
-				game.Build();
-				game.Run();
-			game.Close();
+		game = new Game();
+		game.Build();
+		game.Run();
+		game.Close();
 		Console.WriteLine( "Closed window");
 
 	}
 
-
-
 	private static Random random = new Random( 0 ); // seed for repeatability.
 	
-	private Window window;
+	private Window _window;
 	
 	private Text leftScore;
 	private Text rightScore;
@@ -42,53 +41,70 @@ public class Game
 	private Booster booster1;
 	private Booster booster2;
 
+	int ticksPerSecond = 60;
 	private float timePerUpdate; //Time per update in seconds
 	
 	public Game()
 	{
-		window = new Window( this );
+		_window = new Window( this );
 	}	
 
 	private void Build() 
 	{
-		ball = new Ball( "Ball", "ball.png" ); // orbitting the window centre
-		leftPaddle = new AutoPaddle( "Left", 10, 208, "paddle.png", ball );
-		rightPaddle = new AutoPaddle( "Right", 622, 208, "paddle.png", ball );
+		ball = new Ball( "Ball", new Vec2(312,232) , "ball.png");
+		leftPaddle = new AutoPaddle( "Left", new Vec2(10, 208), "paddle.png", ball );
+		rightPaddle = new AutoPaddle( "Right", new Vec2(622, 208), "paddle.png", ball );
 		
-		leftScore = new Text( "LeftScore", 320-20 - 66, 10, "digits.png", leftPaddle );
-		rightScore = new Text( "RightScore", 320+20, 10, "digits.png", rightPaddle );
+		leftScore = new Text( "LeftScore", new Vec2(320-20 - 66, 10), "digits.png", leftPaddle );
+		rightScore = new Text( "RightScore", new Vec2(320+20, 10), "digits.png", rightPaddle );
 
-		booster1 = new Booster( "Booster", 304, 96, "booster.png", ball );
-		booster2 = new Booster( "Booster", 304, 384, "booster.png", ball );
+		booster1 = new Booster( "Booster", new Vec2(304, 96), "booster.png", ball );
+		booster2 = new Booster( "Booster", new Vec2(304, 384), "booster.png", ball );
+		
+		SetGameSpeed(60);
+	}
+
+
+	public void SetGameSpeed(int tps)
+	{
+		if (tps > 0)
+		{
+			ticksPerSecond = tps;
+			timePerUpdate = 1.0f / ticksPerSecond;
+		}
 	}
 	
 	public void Run() {
-		Time.Timeout( "Reset", 1.0f, ball.Restart );
+		Time.Timeout( "Reset", 1.0f, ball.Restart);
 		
-		timePerUpdate = 0.016f;
-		
-		double previous = Time.Now;
-		double lag = 0.0;
+		float previous = Time.Now;
+		float lag = 0.0f;
 		
 		bool running = true;
 		while (running)
 		{
-			double current = Time.Now;
-			double elapsed = current - previous;
+			Time.Update();
+			float current = Time.Now;
+			float elapsed = current - previous;
 			previous = current;
 			lag += elapsed;
 			
 			ProcessInput();
 			
+			//float oldLag = lag;
+			//int i = 0;
 			while (lag >= timePerUpdate)
 			{
 				Update();
 				lag -= timePerUpdate;
+				//i++;
 			}
+			
+			//Console.WriteLine("Prev Lag: " + oldLag + " | Leftover Lag: " + lag + " | Updates: " + i);
 			
 			TriggerRender();
 
-			running = window.Visible;
+			running = _window.Visible;
 		}
 	}
 
@@ -99,10 +115,7 @@ public class Game
 
 	public void Update()
 	{
-		Time.Update();
-		
 		FrameCounter.Update();
-		
 		
 		ball.Update();
 		leftPaddle.Update();
@@ -122,46 +135,11 @@ public class Game
 			leftPaddle.IncScore();
 			ball.Reset();
 		}
-		
-		/*
-		Time.Update();
-		FrameCounter.Update();
-		
-		// steps to do
-			// input
-			// apply velocity so move		
-			// check collisions and apply reponse and rules		
-			// render
-
-		ball.Update( pGraphics );
-		leftPaddle.Update( pGraphics );
-		rightPaddle.Update( pGraphics );
-		booster1.Update( pGraphics );
-		booster2.Update( pGraphics );
-		
-		leftScore.Update( pGraphics );
-		rightScore.Update( pGraphics );
-		
-		if( ball.Position.X < 0 ) {
-			rightPaddle.IncScore();
-			ball.Reset();
-		}		
-		if( ball.Position.X > 640-16 ) { // note: bad literals detected
-			leftPaddle.IncScore();
-			ball.Reset();
-		}
-		
-		Thread.Sleep( 16 ); // roughly 60 fps
-		
-		//Console.WriteLine("Updating");
-		*/
-
-		Thread.Sleep(16);
 	}
 
 	private void TriggerRender()
 	{
-		window.Refresh();
+		_window.Refresh();
 	}
 
 	public void Render(Graphics graphics)
@@ -176,11 +154,12 @@ public class Game
 	}
 	
 	public void Close() {
-		window.Close();
+		_window.Close();
 	}
 	
-	static public Random Random {
-		get {
+	public static Random Random {
+		get 
+		{
 			return random;
 		}
 	}

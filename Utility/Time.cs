@@ -15,7 +15,7 @@ static public class Time
 	
 	//private float lastTime = Time;
 	private static float now = 0.0f;
-	private static float step = 0.0f; // note: now it's a dynamic step size, you may want to have a fixxed timeStep !
+	private static float step = 0.0f; // note: now it's a dynamic step size, you may want to have a fixed timeStep !
 	
 	static SortedSet<TimeoutEvent> timeouts = new SortedSet<TimeoutEvent>();
 	

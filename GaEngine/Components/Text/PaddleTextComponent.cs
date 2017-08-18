@@ -22,7 +22,6 @@ namespace GaGame.GaEngine
             Debug.Assert(graphics != null);
             Debug.Assert(text != null);
             
-            // render
             int digits = 2;
             string score = "000"+ _paddle.Score;
             for( int d=0; d<digits; d++ ) 

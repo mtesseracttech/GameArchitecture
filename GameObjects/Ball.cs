@@ -1,31 +1,19 @@
-﻿/*
- * User: Eelco
- * Date: 5/13/2017
- * Time: 2:01 PM
- */
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using GaGame.GameObjects;
 
 
-public class Ball
+public class Ball : Sprite
 {
-	private string name;
-	private Image image;
-
-	private Vec2 position = null; // making clear no default value, needs constructor action.
-	private Vec2 velocity = null;
-	
-	private bool pausing = true;
+	private Vec2 _velocity;
+	private bool _pausing = true;
 	
 	public readonly Vec2 Speed = new Vec2( 10.0f, 10.0f );
 	
-	public Ball( string pName, string pImageFile )
+	public Ball(string name, Vec2 position, string imageFile) : base(name, position, imageFile)
 	{
-		name = pName;
-		image = Image.FromFile( pImageFile );
-		position = new Vec2( 312, 232 ); // center of form
-		velocity = new Vec2( 0.0f, 0.0f );
+		_velocity = new Vec2( 0.0f, 0.0f );
 		Reset(); // sets pos and vel
 	}
 	
@@ -33,89 +21,68 @@ public class Ball
 	{
 		// input
 		if( Input.Key.Enter( Keys.P ) ) {
-			pausing = ! pausing; // toggle
-			Console.WriteLine( "Pausing "+pausing );
+			_pausing = ! _pausing; // toggle
+			Console.WriteLine( "Pausing "+_pausing );
 		}
 		
 		// move
-		if( ! pausing ) {
-			position.Add( velocity );
+		if( ! _pausing ) {
+			_position.Add( _velocity );
 		}
 		
 		// collisions & resolve
 
 		// Y bounds reflect
-		if( position.Y < 0 ) { 
-			position.Y = 0;
-			velocity.Y = -velocity.Y;
+		if( _position.Y < 0 ) { 
+			_position.Y = 0;
+			_velocity.Y = -_velocity.Y;
 		}
-		if( position.Y > 480-16 ) { // note: non maintainable literals here, who did this
-			position.Y = 480-16;
-			velocity.Y = -velocity.Y;
+		if( _position.Y > 480-16 ) { // note: non maintainable literals here, who did this
+			_position.Y = 480-16;
+			_velocity.Y = -_velocity.Y;
 		}
 		
 		// see game and paddles
 	}
 
-	public void Render(Graphics graphics)
-	{
-		graphics.DrawImage( image, position.X, position.Y );
-	}
-
 	public bool Intersects( Vec2 otherPosition, Vec2 otherSize ) {
 		return
-		    this.position.X < otherPosition.X+otherSize.X && this.position.X + this.Size.X > otherPosition.X &&
-		    this.position.Y < otherPosition.Y+otherSize.Y && this.position.Y + this.Size.Y > otherPosition.Y;
+		    _position.X < otherPosition.X+otherSize.X && _position.X + Size.X > otherPosition.X &&
+		    _position.Y < otherPosition.Y+otherSize.Y && _position.Y + Size.Y > otherPosition.Y;
 	}
 	
-	
-	
 	public void Boost() {
-		velocity = velocity * 2.0f;
+		_velocity = _velocity * 2.0f;
 	}
 
 	public void DeBoost() {
-		velocity = velocity / 2.0f;
+		_velocity = _velocity / 2.0f;
 	}
-	
 	
 	public void Reset() 
 	{
-		position.X = 320-8;
-		position.Y = 240-8;
-		//velocity.X = 0.5f;
-		velocity.X = Speed.X;
-		velocity.Y = (float)(Game.Random.NextDouble() - 0.5) * 2.0f * Speed.Y;
-		pausing = true;
+		_position.X = 320-8;
+		_position.Y = 240-8;
+		_velocity.X = Speed.X;
+		_velocity.Y = (float)(Game.Random.NextDouble() - 0.5) * 2.0f * Speed.Y;
+		_pausing = true;
 		Time.Timeout( "Reset", 1.0f, Restart );	// restart after 1 sec.
 	}
-	 
-	public Vec2 Center {
-		get {
-			return position + 0.5f * Size;
-		}
-	}	
-	public Vec2 Position {
-		get { 
-			return position;
-		}
-	}
-	public Vec2 Size {
-		get { 
-			return new Vec2( image.Width, image.Height ); 
-		}
-	}
-	public Vec2 Velocity {
-		get {
-			return velocity;
+	
+	public Vec2 Velocity 
+	{
+		get 
+		{
+			return _velocity;
 		}
 	}
 	
 	public void Restart(  Object sender,  Time.TimeoutEvent timeout ) 
 	{
-		pausing = false;
+		_pausing = false;
 		Console.WriteLine("Restart");
 	}
+
 
 }
 

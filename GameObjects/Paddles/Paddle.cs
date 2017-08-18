@@ -1,18 +1,11 @@
-﻿/*
- * User: Eelco
- * Date: 5/13/2017
- * Time: 2:01 PM
- */
-using System;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using GaGame.GameObjects;
 
 
 public class Paddle : Sprite
 {
-	protected Vec2 Velocity = null;
-	protected Ball Ball = null;
+	protected Vec2 Velocity;
+	protected Ball Ball;
 	
 	protected uint score;
 	
@@ -61,24 +54,11 @@ public class Paddle : Sprite
 		    _position.X < otherPosition.X+otherSize.X && _position.X + Size.X > otherPosition.X &&
 		    _position.Y < otherPosition.Y+otherSize.Y && _position.Y + Size.Y > otherPosition.Y;
 	}
-	
-	public Vec2 Center 
-	{
-		get {
-			return _position + 0.5f * Size;
-		}
-	}	
-	
-	public Vec2 Size 
-	{
-		get { 
-			return new Vec2( _image.Width, _image.Height ); 
-		}
-	}	
 
 	public uint Score 
 	{
-		get { 
+		get 
+		{ 
 			return score; 
 		}
 	}	

@@ -6,58 +6,21 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using GaGame.GaEngine;
+using GaGame.GameObjects;
 
-public class Text
+public class Text : GameObject
 {
-	private string name;
-	private Image image;
-	private Vec2 position = null;
-	private string text;
+	private PaddleTextComponent _graphics;
 	
-	private Paddle paddle;
-	
-	
-	public Text( string pName, float pX, float pY, string pImageFile, Paddle pPaddle )
+	public Text(string name, Vec2 position, string imageFile, Paddle paddle) : base(name, position)
 	{
-		name = pName;
-		image = Image.FromFile( pImageFile );
-		position = new Vec2( pX, pY );
-		text = "0";
-		paddle = pPaddle;
+		_graphics = new PaddleTextComponent(imageFile, "text", paddle);
 	}
-	
-	public virtual void Update()
-	{
-	}
-	
+
 	public void Render(Graphics graphics)
 	{
-		Debug.Assert(graphics != null );
-		Debug.Assert(paddle != null );
-		
-		// render
-		int digits = 2;
-		string score = "000"+paddle.Score;
-		for( int d=0; d<digits; d++ ) { // 3 digits left to right
-			int digit = score[ score.Length-digits + d ] - 48; // '0' => 0 etc
-			Rectangle rect = new Rectangle( digit * image.Width/10, 0, image.Width/10, image.Height );
-			graphics.DrawImage( image, position.X + d*image.Width/10, position.Y, rect, GraphicsUnit.Pixel );
-		}
+		_graphics.Update(graphics, this);
 	}
-	
-	public string Value {
-		get {
-			return text;
-		}
-		set {
-			text = value;
-		}
-	}
-	
-	public Vec2 Position {
-		get { 
-			return position;
-		}
-	}	
 }
 

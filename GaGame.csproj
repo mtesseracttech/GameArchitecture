@@ -49,21 +49,28 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GaEngine\Components\Ball\BallInputComponent.cs" />
+    <Compile Include="GaEngine\Components\General\SpriteComponent.cs" />
+    <Compile Include="GaEngine\Components\InputComponent.cs" />
+    <Compile Include="GaEngine\Components\Paddle\PaddleInputAutoComponent.cs" />
+    <Compile Include="GaEngine\Components\Paddle\PaddleInputComponent.cs" />
+    <Compile Include="GaEngine\Components\Paddle\PaddleInputManualComponent.cs" />
+    <Compile Include="GaEngine\Components\PhysicsComponent.cs" />
+    <Compile Include="GaEngine\Components\Text\PaddleTextComponent.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameObjects\AutoPaddle.cs" />
     <Compile Include="GameObjects\Ball.cs" />
     <Compile Include="GameObjects\Booster.cs" />
-    <Compile Include="GameObjects\CurvedPaddle.cs" />
-    <Compile Include="GameObjects\Paddle.cs" />
+    <Compile Include="GameObjects\GameObject.cs" />
+    <Compile Include="GameObjects\Paddles\AutoPaddle.cs" />
+    <Compile Include="GameObjects\Paddles\CurvedPaddle.cs" />
+    <Compile Include="GameObjects\Paddles\Paddle.cs" />
+    <Compile Include="GameObjects\Sprite.cs" />
     <Compile Include="GameObjects\Text.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Utility\FrameCounter.cs" />
     <Compile Include="Utility\Time.cs" />
     <Compile Include="Vec2.cs" />
     <Compile Include="Window.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GaEngine" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

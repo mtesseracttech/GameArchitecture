@@ -8,16 +8,9 @@ using System.Drawing;
 using System.Windows.Forms;
 
 public class CurvedPaddle : Paddle
-{	
-	public CurvedPaddle(string name, Vec2 position, string imageFile, Ball ball) : base(name, position, imageFile, ball)
-	{
-	}
-	/*
-	public CurvedPaddle( string pName, float pX, float pY, string pImageFile, Ball pBall )
-		: base( pName, pX, pY, pImageFile, pBall ) 
-	{
-	}*/
-	
+{
+	public CurvedPaddle(string name, Vec2 position, string imageFile, Ball ball) : base(name, position, imageFile, ball){}
+
 	public override void Update()
 	{
 		// input
@@ -30,10 +23,13 @@ public class CurvedPaddle : Paddle
 		_position.Add( Velocity );
 		
 		// collisions & resolve
-		if( Intersects( Ball.Position, Ball.Size ) ) {
-			if( Ball.Velocity.X > 0 ) {
+		if( Intersects( Ball.Position, Ball.Size ) ) 
+		{
+			if( Ball.Velocity.X > 0 ) 
+			{
 				Ball.Position.X = _position.X - Ball.Size.X;
-			} else if( Ball.Velocity.X < 0 ) {
+			} else if( Ball.Velocity.X < 0 ) 
+			{
 				Ball.Position.X = _position.X + Size.X;
 			}
 			Ball.Velocity.X = -Ball.Velocity.X;
