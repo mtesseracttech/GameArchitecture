@@ -59,35 +59,48 @@ public class Game
 		var ballPhysics = new BallPhysicsComponent(new Vec2(0,0),new Vec2( 10, 10));
 		var ballBehaviour = new BallBehaviourComponent(ballPhysics);
 		var ballInput =  new BallInputComponent(ballBehaviour);
-		ball = new Ball( "Ball", new Vec2(312,232) , "ball.png", ballPhysics, ballInput, ballBehaviour);
+		ball = new Ball("Ball", new Vec2(312,232) , "ball.png", ballPhysics, ballInput, ballBehaviour);
 		
 		//Left paddle setup
-		var leftPaddlePhysics = new PaddlePhysicsManualComponent();
-		var leftPaddleInput = new PaddleInputManualComponent(leftPaddlePhysics);
-		leftPaddle = new Paddle( "Left", new Vec2(10, 208), "paddle.png", ball, leftPaddlePhysics, leftPaddleInput);
+		//var leftPaddlePhysics = new PaddlePhysicsManualComponent(); //Uncomment for manual mode
+		//var leftPaddleInput = new PaddleInputManualComponent(leftPaddlePhysics);
+		var leftPaddlePhysics = new PaddlePhysicsAutoComponent();
+		var leftPaddleInput = new PaddleInputAutoComponent(leftPaddlePhysics);
+		leftPaddle = new Paddle("Left", new Vec2(10, 208), "paddle.png", ball, leftPaddlePhysics, leftPaddleInput);
 
 		//Right paddle setup
 		var rightPaddlePhysics = new PaddlePhysicsAutoComponent();
 		var rightPaddleInput = new PaddleInputAutoComponent(rightPaddlePhysics);
-		rightPaddle = new Paddle( "Right", new Vec2(622, 208), "paddle.png", ball, rightPaddlePhysics, rightPaddleInput);
+		rightPaddle = new Paddle("Right", new Vec2(622, 208), "paddle.png", ball, rightPaddlePhysics, rightPaddleInput);
 		
 		//Left Score Text
-		var leftText = new PaddleTextComponent("digits.png", "text", leftPaddle);
-		leftScore = new Text( "LeftScore", new Vec2(320-20 - 66, 10), leftText);
+		var leftText = new PaddleTextComponent("digits.png", "0", leftPaddle);
+		leftScore = new Text("LeftScore", new Vec2(320-20 - 66, 10), leftText);
 		
 		//Right Score Text
-		var rightText = new PaddleTextComponent("digits.png","text", rightPaddle);
-		rightScore = new Text( "RightScore", new Vec2(320+20, 10),rightText);
+		var rightText = new PaddleTextComponent("digits.png","0", rightPaddle);
+		rightScore = new Text("RightScore", new Vec2(320+20, 10),rightText);
 
 		//Booster 1 setup
 		var booster1Physics = new BoosterPhysicsComponent();
 		var booster1Behaviour = new BoosterBehaviourComponent(booster1Physics, ball);
-		booster1 = new Booster( "Booster", new Vec2(304, 96), "booster.png", booster1Physics, booster1Behaviour);
+		booster1 = new Booster("Booster", new Vec2(304, 96), "booster.png", booster1Physics, booster1Behaviour);
 		
 		//Booster 2 setup
 		var booster2Physics = new BoosterPhysicsComponent();
 		var booster2Behaviour = new BoosterBehaviourComponent(booster2Physics, ball);
-		booster2 = new Booster( "Booster", new Vec2(304, 384), "booster.png", booster2Physics, booster2Behaviour);
+		booster2 = new Booster("Booster", new Vec2(304, 384), "booster.png", booster2Physics, booster2Behaviour);
+
+		_gameObjects = new List<GameObject>
+		{
+			ball,
+			leftPaddle,
+			rightPaddle,
+			leftScore,
+			rightScore,
+			booster1,
+			booster2
+		};
 		
 		SetGameSpeed(60); //Setting the default gamespeed
 	}
@@ -134,13 +147,10 @@ public class Game
 
 	public void ProcessInput()
 	{
-		ball.ProcessInput();
-		leftPaddle.ProcessInput();
-		rightPaddle.ProcessInput();
-		booster1.ProcessInput();
-		booster2.ProcessInput();
-		leftScore.ProcessInput();
-		rightScore.ProcessInput();
+		foreach (var gameObject in _gameObjects)
+		{
+			gameObject.ProcessInput();
+		}
 	}
 
 	public void Update()
@@ -148,13 +158,10 @@ public class Game
 		FrameCounter.Update();
 		Time.Update();
 		
-		ball.Update();
-		leftPaddle.Update();
-		rightPaddle.Update();
-		booster1.Update();
-		booster2.Update();
-		leftScore.Update();
-		rightScore.Update();
+		foreach (var gameObject in _gameObjects)
+		{
+			gameObject.Update();
+		}
 		
 		if( ball.Position.X < 0 ) 
 		{
@@ -175,16 +182,14 @@ public class Game
 
 	public void Render(Graphics graphics)
 	{
-		ball.Render(graphics);
-		leftPaddle.Render(graphics);
-		rightPaddle.Render(graphics);
-		booster1.Render(graphics);
-		booster2.Render(graphics);
-		leftScore.Render(graphics);
-		rightScore.Render(graphics);
+		foreach (var gameObject in _gameObjects)
+		{
+			gameObject.Render(graphics);
+		}
 	}
 	
-	public void Close() {
+	public void Close() 
+	{
 		_window.Close();
 	}
 	

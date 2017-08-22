@@ -21,12 +21,12 @@ public class PaddleTextComponent
         Debug.Assert(text != null);
         
         int digits = 2;
-        string score = "000"+ _paddle.Score;
+        string score = "000"+_paddle.Score;
         for( int d=0; d<digits; d++ ) 
-        {
-            int digit = score[ score.Length-digits + d ] - 48;
+        { // 3 digits left to right
+            int digit = score[ score.Length-digits + d ] - 48; // '0' => 0 etc
             Rectangle rect = new Rectangle( digit * _image.Width/10, 0, _image.Width/10, _image.Height );
-            graphics.DrawImage(_image, text.Position.X + _image.Width/10, text.Position.Y, rect, GraphicsUnit.Pixel );
+            graphics.DrawImage( _image, text.Position.X + d*_image.Width/10, text.Position.Y, rect, GraphicsUnit.Pixel );
         }
     }
     
