@@ -1,4 +1,6 @@
-﻿namespace GaGame.GameObjects
+﻿using System.Drawing;
+
+namespace GaGame.GameObjects
 {
     public abstract class GameObject
     {
@@ -22,5 +24,9 @@
         }
 
         public virtual void Update(){}
+        
+        public virtual void Render(Graphics graphics){}
+        
+        public virtual void ProcessInput(){}
     }
 }

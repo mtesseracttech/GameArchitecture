@@ -1,9 +1,13 @@
 ﻿using GaGame.GameObjects;
 
-namespace GaGame.GaEngine
+public abstract class PaddleInputComponent
 {
-    public abstract class PaddleInputComponent
+    protected PaddlePhysicsComponent _physics;
+
+    public PaddleInputComponent(PaddlePhysicsComponent physics)
     {
-        public abstract void Update(GameObject paddle);
+        _physics = physics;
     }
+    
+    public abstract void Update(Paddle paddle, Ball ball);
 }

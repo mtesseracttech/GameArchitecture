@@ -3,7 +3,7 @@ using GaGame.GaEngine;
 
 namespace GaGame.GameObjects
 {
-    public abstract class Sprite :GameObject
+    public abstract class Sprite : GameObject
     {
         protected SpriteComponent _graphics;
         
@@ -12,7 +12,7 @@ namespace GaGame.GameObjects
             _graphics = new SpriteComponent(imageFile);
         }
         
-        public void Render(Graphics graphics)
+        public override void Render(Graphics graphics)
         {
             _graphics.Update(graphics, this);
         }

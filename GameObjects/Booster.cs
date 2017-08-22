@@ -11,46 +11,18 @@ using GaGame.GameObjects;
 
 public class Booster : Sprite
 {
-	private bool _active = true;
-	private Ball _ball;
+	private BoosterBehaviourComponent _behaviour;
+	private BoosterPhysicsComponent _physics;//has no real use at this point, except to store a intersect function
 	
-	
-	public Booster(string name, Vec2 position, string imageFile, Ball ball) : base(name, position, imageFile)
+	public Booster(string name, Vec2 position, string imageFile, BoosterPhysicsComponent physics, BoosterBehaviourComponent behaviour) : base(name, position, imageFile)
 	{
-		_ball = ball;
+		_physics = physics;
+		_behaviour = behaviour; 
 	}
 	
-
 	public void Update()
 	{
-		if( _active && Intersects( _ball.Position, _ball.Size ) ) 
-		{
-			_active = false;
-			_ball.Boost();
-			Time.Timeout( "Deboosting", 0.5f, DeBoost );
-		}
-	}
-	
-	// Event handlers
-
-	private void DeBoost( Object sender,  Time.TimeoutEvent timeout )
-	{
-		_ball.DeBoost();
-		_active = true;
-	}	
-
-	// Tools
-	public bool Intersects( Vec2 otherPosition, Vec2 otherSize ) {
-		return
-		    _position.X < otherPosition.X+otherSize.X && _position.X + Size.X > otherPosition.X &&
-		    _position.Y < otherPosition.Y+otherSize.Y && _position.Y + Size.Y > otherPosition.Y;
-	}
-	
-	
-	public void Reset() 
-	{
-		_position.X = 320-8;
-		_position.Y = 240-8;
+		_behaviour.Update(this);
 	}
 }
 

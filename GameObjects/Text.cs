@@ -1,9 +1,4 @@
-﻿/*
- * User: Eelco
- * Date: 5/16/2017
- * Time: 9:05 AM
- */
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
 using GaGame.GaEngine;
@@ -13,12 +8,12 @@ public class Text : GameObject
 {
 	private PaddleTextComponent _graphics;
 	
-	public Text(string name, Vec2 position, string imageFile, Paddle paddle) : base(name, position)
+	public Text(string name, Vec2 position, PaddleTextComponent graphics) : base(name, position)
 	{
-		_graphics = new PaddleTextComponent(imageFile, "text", paddle);
+		_graphics = graphics;
 	}
 
-	public void Render(Graphics graphics)
+	public override void Render(Graphics graphics)
 	{
 		_graphics.Update(graphics, this);
 	}

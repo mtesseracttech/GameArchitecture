@@ -1,12 +1,14 @@
-﻿using GaGame.GameObjects;
+﻿using System;
+using GaGame.GameObjects;
 
-namespace GaGame.GaEngine
+public class PaddleInputAutoComponent : PaddleInputComponent
 {
-    public class PaddleInputAutoComponent : PaddleInputComponent
+    public override void Update(Paddle paddle, Ball ball)
     {
-        public override void Update(GameObject paddle)
-        {
-            throw new System.NotImplementedException();
-        }
+        _physics.Velocity.Y = 0; // no move 
+        if ( ball.Position.Y+8 > paddle.Position.Y+32 + 8 ) _physics.Velocity.Y = +_physics.Speed;
+        if ( ball.Position.Y+8 < paddle.Position.Y+32 - 8 ) _physics.Velocity.Y = -_physics.Speed;
     }
+
+    public PaddleInputAutoComponent(PaddlePhysicsComponent physics) : base(physics){}
 }

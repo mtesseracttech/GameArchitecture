@@ -12,6 +12,8 @@ using System.Drawing.Text;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
+using GaGame.GaEngine.Paddle;
+using GaGame.GameObjects;
 
 public class Game
 {
@@ -34,12 +36,14 @@ public class Game
 	
 	private Text leftScore;
 	private Text rightScore;
-	
 	private Ball ball;
 	private Paddle leftPaddle;
 	private Paddle rightPaddle;
 	private Booster booster1;
 	private Booster booster2;
+
+	private List<GameObject> _gameObjects;
+	
 
 	int ticksPerSecond = 60;
 	private float timePerUpdate; //Time per update in seconds
@@ -51,17 +55,41 @@ public class Game
 
 	private void Build() 
 	{
-		ball = new Ball( "Ball", new Vec2(312,232) , "ball.png");
-		leftPaddle = new AutoPaddle( "Left", new Vec2(10, 208), "paddle.png", ball );
-		rightPaddle = new AutoPaddle( "Right", new Vec2(622, 208), "paddle.png", ball );
+		//Ball setup
+		var ballPhysics = new BallPhysicsComponent(new Vec2(0,0),new Vec2( 10, 10));
+		var ballBehaviour = new BallBehaviourComponent(ballPhysics);
+		var ballInput =  new BallInputComponent(ballBehaviour);
+		ball = new Ball( "Ball", new Vec2(312,232) , "ball.png", ballPhysics, ballInput, ballBehaviour);
 		
-		leftScore = new Text( "LeftScore", new Vec2(320-20 - 66, 10), "digits.png", leftPaddle );
-		rightScore = new Text( "RightScore", new Vec2(320+20, 10), "digits.png", rightPaddle );
+		//Left paddle setup
+		var leftPaddlePhysics = new PaddlePhysicsManualComponent();
+		var leftPaddleInput = new PaddleInputManualComponent(leftPaddlePhysics);
+		leftPaddle = new Paddle( "Left", new Vec2(10, 208), "paddle.png", ball, leftPaddlePhysics, leftPaddleInput);
 
-		booster1 = new Booster( "Booster", new Vec2(304, 96), "booster.png", ball );
-		booster2 = new Booster( "Booster", new Vec2(304, 384), "booster.png", ball );
+		//Right paddle setup
+		var rightPaddlePhysics = new PaddlePhysicsAutoComponent();
+		var rightPaddleInput = new PaddleInputAutoComponent(rightPaddlePhysics);
+		rightPaddle = new Paddle( "Right", new Vec2(622, 208), "paddle.png", ball, rightPaddlePhysics, rightPaddleInput);
 		
-		SetGameSpeed(60);
+		//Left Score Text
+		var leftText = new PaddleTextComponent("digits.png", "text", leftPaddle);
+		leftScore = new Text( "LeftScore", new Vec2(320-20 - 66, 10), leftText);
+		
+		//Right Score Text
+		var rightText = new PaddleTextComponent("digits.png","text", rightPaddle);
+		rightScore = new Text( "RightScore", new Vec2(320+20, 10),rightText);
+
+		//Booster 1 setup
+		var booster1Physics = new BoosterPhysicsComponent();
+		var booster1Behaviour = new BoosterBehaviourComponent(booster1Physics, ball);
+		booster1 = new Booster( "Booster", new Vec2(304, 96), "booster.png", booster1Physics, booster1Behaviour);
+		
+		//Booster 2 setup
+		var booster2Physics = new BoosterPhysicsComponent();
+		var booster2Behaviour = new BoosterBehaviourComponent(booster2Physics, ball);
+		booster2 = new Booster( "Booster", new Vec2(304, 384), "booster.png", booster2Physics, booster2Behaviour);
+		
+		SetGameSpeed(60); //Setting the default gamespeed
 	}
 
 
@@ -83,6 +111,7 @@ public class Game
 		bool running = true;
 		while (running)
 		{
+			Application.DoEvents();
 			Time.Update();
 			float current = Time.Now;
 			float elapsed = current - previous;
@@ -91,18 +120,13 @@ public class Game
 			
 			ProcessInput();
 			
-			//float oldLag = lag;
-			//int i = 0;
 			while (lag >= timePerUpdate)
 			{
 				Update();
 				lag -= timePerUpdate;
-				//i++;
 			}
 			
-			//Console.WriteLine("Prev Lag: " + oldLag + " | Leftover Lag: " + lag + " | Updates: " + i);
-			
-			TriggerRender();
+			TriggerRender(); //Cant pass anything into this currently without an ugly hack
 
 			running = _window.Visible;
 		}
@@ -110,12 +134,19 @@ public class Game
 
 	public void ProcessInput()
 	{
-		Application.DoEvents();
+		ball.ProcessInput();
+		leftPaddle.ProcessInput();
+		rightPaddle.ProcessInput();
+		booster1.ProcessInput();
+		booster2.ProcessInput();
+		leftScore.ProcessInput();
+		rightScore.ProcessInput();
 	}
 
 	public void Update()
 	{
 		FrameCounter.Update();
+		Time.Update();
 		
 		ball.Update();
 		leftPaddle.Update();
