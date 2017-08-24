@@ -7,17 +7,18 @@ namespace GaGame.GaEngine
     public class SpriteComponent
     {
         private Image _image;
+        private IGraphics _graphicsService;
         
         public SpriteComponent(string imageFile)
         {
             _image = Image.FromFile( imageFile );
+            _graphicsService = GraphicsLocator.GetGraphics();
         }
         
-        public void Update(Graphics graphics, Sprite sprite)
+        public void Update(Sprite sprite)
         {
-            Debug.Assert(graphics != null );
             Debug.Assert(sprite != null );
-            graphics.DrawImage(_image, sprite.Position.X, sprite.Position.Y );
+            _graphicsService.DrawSprite(_image, sprite.Position);
         }
 
         public Image Image

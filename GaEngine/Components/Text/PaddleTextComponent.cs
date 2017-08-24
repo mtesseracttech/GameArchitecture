@@ -6,18 +6,19 @@ public class PaddleTextComponent
     private string _text;
     private Image _image;
     private Paddle _paddle;
+    private IGraphics _graphicsService;
     
     public PaddleTextComponent(string imageFile, string text, Paddle paddle)
     {
         _image = Image.FromFile( imageFile );
         _text = text;
         _paddle = paddle;
+        _graphicsService = GraphicsLocator.GetGraphics();
         Debug.Assert(_paddle != null);
     }
     
-    public void Update(Graphics graphics, Text text)
+    public void Update(Text text)
     {
-        Debug.Assert(graphics != null);
         Debug.Assert(text != null);
         
         int digits = 2;
@@ -25,8 +26,10 @@ public class PaddleTextComponent
         for( int d=0; d<digits; d++ ) 
         { // 3 digits left to right
             int digit = score[ score.Length-digits + d ] - 48; // '0' => 0 etc
-            Rectangle rect = new Rectangle( digit * _image.Width/10, 0, _image.Width/10, _image.Height );
-            graphics.DrawImage( _image, text.Position.X + d*_image.Width/10, text.Position.Y, rect, GraphicsUnit.Pixel );
+            Vec2 position = new Vec2(text.Position.X + d * _image.Width / 10, text.Position.Y);
+            Vec2 rectCorner = new Vec2(digit * _image.Width/10, 0);
+            Vec2 rectSize = new Vec2(_image.Width/10, _image.Height);
+            _graphicsService.DrawSpriteSelection(_image, position, rectCorner, rectSize);
         }
     }
     

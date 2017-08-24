@@ -25,7 +25,7 @@ namespace GaGame.GameObjects
 
         public virtual void Update() {}
         
-        public virtual void Render(Graphics graphics){}
+        public virtual void Render(){}
         
         public virtual void ProcessInput(){}
     }

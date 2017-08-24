@@ -37,8 +37,8 @@ public class BallBehaviourComponent
     {
         ball.Position.X = 320-8;
         ball.Position.Y = 240-8;
-        _physics.Velocity.X = _physics._speed.X;
-        _physics.Velocity.Y = (float)(Game.Random.NextDouble() - 0.5) * 2.0f *_physics._speed.Y;
+        _physics.Velocity.X = _physics.Speed.X;
+        _physics.Velocity.Y = (float)(Game.Random.NextDouble() - 0.5) * 2.0f *_physics.Speed.Y;
         _stateBall = StateBall.Pausing;
         Time.Timeout( "Reset", 1.0f, Restart );	// restart after 1 sec.
     }

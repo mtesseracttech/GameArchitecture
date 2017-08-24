@@ -12,9 +12,9 @@ namespace GaGame.GameObjects
             _graphics = new SpriteComponent(imageFile);
         }
         
-        public override void Render(Graphics graphics)
+        public override void Render()
         {
-            _graphics.Update(graphics, this);
+            _graphics.Update(this);
         }
 
         public Vec2 Center 

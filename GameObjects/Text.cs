@@ -13,9 +13,9 @@ public class Text : GameObject
 		_graphics = graphics;
 	}
 
-	public override void Render(Graphics graphics)
+	public override void Render()
 	{
-		_graphics.Update(graphics, this);
+		_graphics.Update(this);
 	}
 }
 

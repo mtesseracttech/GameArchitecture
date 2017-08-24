@@ -65,6 +65,7 @@
     <Compile Include="GaEngine\Core\Game.cs" />
     <Compile Include="GaEngine\Core\GameObject.cs" />
     <Compile Include="GaEngine\Core\KeyInput.cs" />
+    <Compile Include="GaEngine\Core\RenderContext.cs" />
     <Compile Include="GaEngine\Core\Simple2DPhysics.cs" />
     <Compile Include="GaEngine\Core\Sprite.cs" />
     <Compile Include="GaEngine\Core\Vec2.cs" />

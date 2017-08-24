@@ -56,7 +56,7 @@ public class Game
 	private void Build() 
 	{
 		//Ball setup
-		var ballPhysics = new BallPhysicsComponent(new Vec2(0,0),new Vec2( 10, 10));
+		var ballPhysics = new BallPhysicsComponent(new Vec2(0,0),new Vec2( 10, 10), _window.ClientSize);
 		var ballBehaviour = new BallBehaviourComponent(ballPhysics);
 		var ballInput =  new BallInputComponent(ballBehaviour);
 		_ball = new Ball("Ball", new Vec2(312,232) , "ball.png", ballPhysics, ballInput, ballBehaviour);
@@ -180,11 +180,11 @@ public class Game
 		_window.Refresh();
 	}
 
-	public void Render(Graphics graphics)
+	public void Render()
 	{
 		foreach (var gameObject in _gameObjects)
 		{
-			gameObject.Render(graphics);
+			gameObject.Render();
 		}
 	}
 	
