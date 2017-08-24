@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 public enum StateBall
 {
@@ -19,7 +20,7 @@ public class BallBehaviourComponent
     
     public void Update(Ball ball)
     {
-        Console.WriteLine(_stateBall);
+        Debug.Assert(ball != null);
         if( _stateBall == StateBall.Active ) 
         {
             ball.Position.Add( _physics.Velocity );
@@ -45,12 +46,12 @@ public class BallBehaviourComponent
     public void Restart( Object sender,  Time.TimeoutEvent timeout )
     {
         _stateBall = StateBall.Active;
-        Console.WriteLine("Restart");
+        Logger.Log("Restart");
     }
 
     public void TogglePause()
     {
         _stateBall = _stateBall == StateBall.Active ? StateBall.Pausing : StateBall.Active;
-        Console.WriteLine( _stateBall == StateBall.Active ? "Resuming" : "Pausing");
+        Logger.Log( _stateBall == StateBall.Active ? "Resuming" : "Pausing");
     }
 }

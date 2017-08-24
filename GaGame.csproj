@@ -64,15 +64,26 @@
     <Compile Include="GaEngine\Components\Text\PaddleTextComponent.cs" />
     <Compile Include="GaEngine\Core\Game.cs" />
     <Compile Include="GaEngine\Core\GameObject.cs" />
-    <Compile Include="GaEngine\Core\Input.cs" />
+    <Compile Include="GaEngine\Core\KeyInput.cs" />
+    <Compile Include="GaEngine\Core\Simple2DPhysics.cs" />
     <Compile Include="GaEngine\Core\Sprite.cs" />
     <Compile Include="GaEngine\Core\Vec2.cs" />
     <Compile Include="GaEngine\Core\Window.cs" />
+    <Compile Include="GaEngine\Services\Graphics\GraphicsLocator.cs" />
+    <Compile Include="GaEngine\Services\Graphics\IGraphics.cs" />
+    <Compile Include="GaEngine\Services\Graphics\NullGraphics.cs" />
+    <Compile Include="GaEngine\Services\Input\IInput.cs" />
+    <Compile Include="GaEngine\Services\Input\InputLocator.cs" />
+    <Compile Include="GaEngine\Services\Input\NullInput.cs" />
+    <Compile Include="GaEngine\Services\Physics\IPhysics.cs" />
+    <Compile Include="GaEngine\Services\Physics\NullPhysics.cs" />
+    <Compile Include="GaEngine\Services\Physics\PhysicsLocator.cs" />
     <Compile Include="GameObjects\Ball.cs" />
     <Compile Include="GameObjects\Booster.cs" />
     <Compile Include="GameObjects\Paddle.cs" />
     <Compile Include="GameObjects\Text.cs" />
     <Compile Include="Utility\FrameCounter.cs" />
+    <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Time.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

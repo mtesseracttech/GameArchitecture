@@ -1,13 +1,20 @@
 ﻿
 public class BoosterPhysicsComponent
 {
-    public void Update(Booster booster)
+    private readonly IPhysics _physicsService;
+
+    public BoosterPhysicsComponent()
     {
+        _physicsService = PhysicsLocator.GetPhysics();
     }
     
-    public bool Intersects( Vec2 otherPosition, Vec2 otherSize, Booster booster) {
-        return
-            booster.Position.X < otherPosition.X+otherSize.X && booster.Position.X + booster.Size.X > otherPosition.X &&
-            booster.Position.Y < otherPosition.Y+otherSize.Y && booster.Position.Y + booster.Size.Y > otherPosition.Y;
+    public void Update(Booster booster)
+    {
+        
+    }
+    
+    public bool HitByBall(Booster booster, Ball ball)
+    {
+        return _physicsService.Intersects(booster.Position, booster.Size, ball.Position, ball.Size);
     }
 }

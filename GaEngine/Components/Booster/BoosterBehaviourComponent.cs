@@ -1,4 +1,6 @@
-﻿using System.Drawing.Text;
+﻿using System;
+using System.Diagnostics;
+using System.Drawing.Text;
 
 public enum BoosterState
 {
@@ -8,7 +10,7 @@ public enum BoosterState
 
 public class BoosterBehaviourComponent
 {   
-    private BoosterState _state = BoosterState.Inactive;
+    private BoosterState _state;
     private BoosterPhysicsComponent _physics;
     private Ball _ball;
 
@@ -21,7 +23,9 @@ public class BoosterBehaviourComponent
     
     public void Update(Booster booster)
     {
-        if( _state == BoosterState.Active && _physics.Intersects( _ball.Position, _ball.Size, booster ) ) 
+        Debug.Assert(booster != null);
+        
+        if( _state == BoosterState.Active && _physics.HitByBall(booster, _ball) ) 
         {
             _state = BoosterState.Inactive;
             _ball.Boost();

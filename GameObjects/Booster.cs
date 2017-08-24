@@ -12,7 +12,7 @@ using GaGame.GameObjects;
 public class Booster : Sprite
 {
 	private BoosterBehaviourComponent _behaviour;
-	private BoosterPhysicsComponent _physics;//has no real use at this point, except to store a intersect function
+	private BoosterPhysicsComponent _physics;//has no real use at this point, except to store an intersect function
 	
 	public Booster(string name, Vec2 position, string imageFile, BoosterPhysicsComponent physics, BoosterBehaviourComponent behaviour) : base(name, position, imageFile)
 	{
@@ -20,8 +20,8 @@ public class Booster : Sprite
 		_behaviour = behaviour; 
 	}
 	
-	public void Update()
-	{
+	public override void Update()
+	{        
 		_behaviour.Update(this);
 	}
 }

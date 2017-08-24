@@ -6,13 +6,8 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Text;
-using System.Security.Cryptography;
-using System.Threading;
 using System.Windows.Forms;
-using GaGame.GaEngine.Paddle;
 using GaGame.GameObjects;
 
 public class Game
@@ -20,13 +15,13 @@ public class Game
 	[STAThread] // needed to use wpf Keyboard.isKeyPressed when single threaded !
 	public static void Main() 
 	{
-		Console.WriteLine( "Starting Game, close with Escape");
+		Logger.Log( "Starting Game, close with Escape");
 		Game game;
 		game = new Game();
 		game.Build();
 		game.Run();
 		game.Close();
-		Console.WriteLine( "Closed window");
+		Logger.Log( "Closed window");
 
 	}
 
@@ -34,23 +29,28 @@ public class Game
 	
 	private Window _window;
 	
-	private Text leftScore;
-	private Text rightScore;
-	private Ball ball;
-	private Paddle leftPaddle;
-	private Paddle rightPaddle;
-	private Booster booster1;
-	private Booster booster2;
+	private Text _leftScore;
+	private Text _rightScore;
+	private Ball _ball;
+	private Paddle _leftPaddle;
+	private Paddle _rightPaddle;
+	private Booster _booster1;
+	private Booster _booster2;
 
 	private List<GameObject> _gameObjects;
 	
 
-	int ticksPerSecond = 60;
-	private float timePerUpdate; //Time per update in seconds
+	int _ticksPerSecond = 60;
+	private float _timePerUpdate; //Time per update in seconds
 	
 	public Game()
 	{
+		InputLocator.Initialize();
+		PhysicsLocator.Initialize();
+		GraphicsLocator.Initialize();
 		_window = new Window( this );
+		
+		Simple2DPhysics.Register();
 	}	
 
 	private void Build() 
@@ -59,47 +59,47 @@ public class Game
 		var ballPhysics = new BallPhysicsComponent(new Vec2(0,0),new Vec2( 10, 10));
 		var ballBehaviour = new BallBehaviourComponent(ballPhysics);
 		var ballInput =  new BallInputComponent(ballBehaviour);
-		ball = new Ball("Ball", new Vec2(312,232) , "ball.png", ballPhysics, ballInput, ballBehaviour);
+		_ball = new Ball("Ball", new Vec2(312,232) , "ball.png", ballPhysics, ballInput, ballBehaviour);
 		
 		//Left paddle setup
 		//var leftPaddlePhysics = new PaddlePhysicsManualComponent(); //Uncomment for manual mode
 		//var leftPaddleInput = new PaddleInputManualComponent(leftPaddlePhysics);
 		var leftPaddlePhysics = new PaddlePhysicsAutoComponent();
 		var leftPaddleInput = new PaddleInputAutoComponent(leftPaddlePhysics);
-		leftPaddle = new Paddle("Left", new Vec2(10, 208), "paddle.png", ball, leftPaddlePhysics, leftPaddleInput);
+		_leftPaddle = new Paddle("Left", new Vec2(10, 208), "paddle.png", _ball, leftPaddlePhysics, leftPaddleInput);
 
 		//Right paddle setup
 		var rightPaddlePhysics = new PaddlePhysicsAutoComponent();
 		var rightPaddleInput = new PaddleInputAutoComponent(rightPaddlePhysics);
-		rightPaddle = new Paddle("Right", new Vec2(622, 208), "paddle.png", ball, rightPaddlePhysics, rightPaddleInput);
+		_rightPaddle = new Paddle("Right", new Vec2(622, 208), "paddle.png", _ball, rightPaddlePhysics, rightPaddleInput);
 		
 		//Left Score Text
-		var leftText = new PaddleTextComponent("digits.png", "0", leftPaddle);
-		leftScore = new Text("LeftScore", new Vec2(320-20 - 66, 10), leftText);
+		var leftText = new PaddleTextComponent("digits.png", "0", _leftPaddle);
+		_leftScore = new Text("LeftScore", new Vec2(320-20 - 66, 10), leftText);
 		
 		//Right Score Text
-		var rightText = new PaddleTextComponent("digits.png","0", rightPaddle);
-		rightScore = new Text("RightScore", new Vec2(320+20, 10),rightText);
+		var rightText = new PaddleTextComponent("digits.png","0", _rightPaddle);
+		_rightScore = new Text("RightScore", new Vec2(320+20, 10),rightText);
 
 		//Booster 1 setup
 		var booster1Physics = new BoosterPhysicsComponent();
-		var booster1Behaviour = new BoosterBehaviourComponent(booster1Physics, ball);
-		booster1 = new Booster("Booster", new Vec2(304, 96), "booster.png", booster1Physics, booster1Behaviour);
+		var booster1Behaviour = new BoosterBehaviourComponent(booster1Physics, _ball);
+		_booster1 = new Booster("Booster", new Vec2(304, 96), "booster.png", booster1Physics, booster1Behaviour);
 		
 		//Booster 2 setup
 		var booster2Physics = new BoosterPhysicsComponent();
-		var booster2Behaviour = new BoosterBehaviourComponent(booster2Physics, ball);
-		booster2 = new Booster("Booster", new Vec2(304, 384), "booster.png", booster2Physics, booster2Behaviour);
+		var booster2Behaviour = new BoosterBehaviourComponent(booster2Physics, _ball);
+		_booster2 = new Booster("Booster", new Vec2(304, 384), "booster.png", booster2Physics, booster2Behaviour);
 
-		_gameObjects = new List<GameObject>
+		_gameObjects = new List<GameObject> //To make the update loops a bit cleaner
 		{
-			ball,
-			leftPaddle,
-			rightPaddle,
-			leftScore,
-			rightScore,
-			booster1,
-			booster2
+			_ball,
+			_leftPaddle,
+			_rightPaddle,
+			_leftScore,
+			_rightScore,
+			_booster1,
+			_booster2
 		};
 		
 		SetGameSpeed(60); //Setting the default gamespeed
@@ -110,13 +110,13 @@ public class Game
 	{
 		if (tps > 0)
 		{
-			ticksPerSecond = tps;
-			timePerUpdate = 1.0f / ticksPerSecond;
+			_ticksPerSecond = tps;
+			_timePerUpdate = 1.0f / _ticksPerSecond;
 		}
 	}
 	
 	public void Run() {
-		Time.Timeout( "Reset", 1.0f, ball.Restart);
+		Time.Timeout( "Reset", 1.0f, _ball.Restart);
 		
 		float previous = Time.Now;
 		float lag = 0.0f;
@@ -133,10 +133,10 @@ public class Game
 			
 			ProcessInput();
 			
-			while (lag >= timePerUpdate)
+			while (lag >= _timePerUpdate)
 			{
 				Update();
-				lag -= timePerUpdate;
+				lag -= _timePerUpdate;
 			}
 			
 			TriggerRender(); //Cant pass anything into this currently without an ugly hack
@@ -163,15 +163,15 @@ public class Game
 			gameObject.Update();
 		}
 		
-		if( ball.Position.X < 0 ) 
+		if( _ball.Position.X < 0 ) 
 		{
-			rightPaddle.IncScore();
-			ball.Reset();
+			_rightPaddle.IncScore();
+			_ball.Reset();
 		}		
-		if( ball.Position.X > 640-16 ) 
+		if( _ball.Position.X > 640-16 ) 
 		{
-			leftPaddle.IncScore();
-			ball.Reset();
+			_leftPaddle.IncScore();
+			_ball.Reset();
 		}
 	}
 
@@ -188,7 +188,7 @@ public class Game
 		}
 	}
 	
-	public void Close() 
+	public void Close()
 	{
 		_window.Close();
 	}

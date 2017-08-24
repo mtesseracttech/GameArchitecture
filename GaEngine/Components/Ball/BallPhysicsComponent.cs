@@ -16,7 +16,7 @@ public class BallPhysicsComponent
         
     public void Update(Ball ball)
     {
-        Console.WriteLine("Ball velocity: " + _velocity);
+        Debug.Assert(ball != null);
         if( ball.Position.Y < 0 ) 
         { 
             ball.Position.Y = 0;
@@ -29,7 +29,8 @@ public class BallPhysicsComponent
         }
     }
     
-    public void Boost() {
+    public void Boost() 
+    {
         _velocity = _velocity * 2.0f;
     }
 
@@ -40,11 +41,5 @@ public class BallPhysicsComponent
     public Vec2 Velocity
     {
         get { return _velocity; }
-    }
-    
-    public bool Intersects(Ball ball, Vec2 otherPosition, Vec2 otherSize) {
-        return
-            ball.Position.X < otherPosition.X+otherSize.X && ball.Position.X + ball.Size.X > otherPosition.X &&
-            ball.Position.Y < otherPosition.Y+otherSize.Y && ball.Position.Y + ball.Size.Y > otherPosition.Y;
     }
 }

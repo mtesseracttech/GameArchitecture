@@ -23,7 +23,7 @@ namespace GaGame.GameObjects
             get { return _position; }
         }
 
-        public virtual void Update(){}
+        public virtual void Update() {}
         
         public virtual void Render(Graphics graphics){}
         

@@ -22,7 +22,7 @@ public class Window : Form
 			DoubleBuffered = true; // avoid flickering
 		ResumeLayout();	
 		Show();
-		Input.Key.Init( this );
+		KeyInput.Register(this);
 	}
 	
 	protected override void OnPaint( PaintEventArgs e )  // adapter for caching repaints for updates
