@@ -4,6 +4,7 @@
  * Time: 2:01 PM
  */
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using GaGame.GameObjects;
@@ -21,7 +22,8 @@ public class Booster : Sprite
 	}
 	
 	public override void Update()
-	{        
+	{   
+		Debug.Assert(_behaviour != null);
 		_behaviour.Update(this);
 	}
 }

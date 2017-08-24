@@ -2,12 +2,12 @@
 {
     public class Simple2DPhysics : IPhysics
     {
-        public static void Register()
+        public void Register()
         {
             PhysicsLocator.ProvidePhysics(new Simple2DPhysics());
         }
 
-        private Simple2DPhysics(){}
+        public Simple2DPhysics(){}
         
         public bool Intersects(Vec2 thisPosition, Vec2 thisSize, Vec2 otherPosition, Vec2 otherSize)
         {

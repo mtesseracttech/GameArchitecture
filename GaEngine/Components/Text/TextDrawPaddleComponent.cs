@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
+using GaGame.GaEngine;
 
-public class PaddleTextComponent
+public class TextDrawPaddleComponent : GraphicsComponent
 {
     private string _text;
     private Image _image;
     private Paddle _paddle;
-    private IGraphics _graphicsService;
     
-    public PaddleTextComponent(string imageFile, string text, Paddle paddle)
+    public TextDrawPaddleComponent(string imageFile, string text, Paddle paddle)
     {
         _image = Image.FromFile( imageFile );
         _text = text;

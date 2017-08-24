@@ -4,7 +4,7 @@ using System.Drawing;
 using GaGame.GaEngine;
 using GaGame.GameObjects;
 
-public class BallPhysicsComponent
+public class BallPhysicsComponent : PhysicsComponent
 {
     private Vec2 _velocity;
     private readonly Vec2 _speed;

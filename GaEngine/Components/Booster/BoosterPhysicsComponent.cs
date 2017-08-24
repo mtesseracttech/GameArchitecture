@@ -1,8 +1,6 @@
 ﻿
-public class BoosterPhysicsComponent
+public class BoosterPhysicsComponent : PhysicsComponent
 {
-    private readonly IPhysics _physicsService;
-
     public BoosterPhysicsComponent()
     {
         _physicsService = PhysicsLocator.GetPhysics();

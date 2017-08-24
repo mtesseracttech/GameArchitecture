@@ -1,4 +1,5 @@
-﻿using GaGame.GameObjects;
+﻿using System.Diagnostics;
+using GaGame.GameObjects;
 
 
 public class Ball : Sprite
@@ -23,6 +24,8 @@ public class Ball : Sprite
 
 	public override void Update()
 	{
+		Debug.Assert(_behaviour != null);
+		Debug.Assert(_physics != null);
 		_behaviour.Update(this);
 		_physics.Update(this);
 	}

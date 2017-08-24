@@ -1,6 +1,6 @@
 ﻿using GaGame.GameObjects;
 
-public abstract class PaddleInputComponent
+public abstract class PaddleInputComponent : InputComponent
 {
     protected PaddlePhysicsComponent _physics;
 

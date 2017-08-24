@@ -1,8 +1,7 @@
-﻿public abstract class PaddlePhysicsComponent
+﻿public abstract class PaddlePhysicsComponent : PhysicsComponent
 {
     protected Vec2 _velocity;
     protected float _speed;
-    protected IPhysics _physicsService;
     
     public PaddlePhysicsComponent()
     {
@@ -46,10 +45,4 @@
     {
         return _physicsService.Intersects(paddle.Position, paddle.Size, ball.Position, ball.Size);
     }
-    
-    /*protected bool Intersects( Vec2 otherPosition, Vec2 otherSize, Paddle paddle) {
-        return
-            paddle.Position.X < otherPosition.X+otherSize.X && paddle.Position.X + paddle.Size.X > otherPosition.X &&
-            paddle.Position.Y < otherPosition.Y+otherSize.Y && paddle.Position.Y + paddle.Size.Y > otherPosition.Y;
-    }*/
 }

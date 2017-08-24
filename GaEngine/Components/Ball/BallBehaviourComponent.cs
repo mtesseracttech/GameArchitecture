@@ -4,7 +4,7 @@ using System.Diagnostics;
 public enum StateBall
 {
     Active,
-    Pausing
+    Inactive
 }
 
 public class BallBehaviourComponent
@@ -14,7 +14,7 @@ public class BallBehaviourComponent
     
     public BallBehaviourComponent(BallPhysicsComponent physics)
     {
-        _stateBall = StateBall.Pausing;
+        _stateBall = StateBall.Inactive;
         _physics = physics;
     }
     
@@ -39,7 +39,7 @@ public class BallBehaviourComponent
         ball.Position.Y = 240-8;
         _physics.Velocity.X = _physics.Speed.X;
         _physics.Velocity.Y = (float)(Game.Random.NextDouble() - 0.5) * 2.0f *_physics.Speed.Y;
-        _stateBall = StateBall.Pausing;
+        _stateBall = StateBall.Inactive;
         Time.Timeout( "Reset", 1.0f, Restart );	// restart after 1 sec.
     }
     
@@ -51,7 +51,7 @@ public class BallBehaviourComponent
 
     public void TogglePause()
     {
-        _stateBall = _stateBall == StateBall.Active ? StateBall.Pausing : StateBall.Active;
+        _stateBall = _stateBall == StateBall.Active ? StateBall.Inactive : StateBall.Active;
         Logger.Log( _stateBall == StateBall.Active ? "Resuming" : "Pausing");
     }
 }

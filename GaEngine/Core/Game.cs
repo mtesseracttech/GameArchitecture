@@ -49,8 +49,7 @@ public class Game
 		PhysicsLocator.Initialize();
 		GraphicsLocator.Initialize();
 		_window = new Window( this );
-		
-		Simple2DPhysics.Register();
+		new Simple2DPhysics().Register();
 	}	
 
 	private void Build() 
@@ -74,11 +73,11 @@ public class Game
 		_rightPaddle = new Paddle("Right", new Vec2(622, 208), "paddle.png", _ball, rightPaddlePhysics, rightPaddleInput);
 		
 		//Left Score Text
-		var leftText = new PaddleTextComponent("digits.png", "0", _leftPaddle);
+		var leftText = new TextDrawPaddleComponent("digits.png", "0", _leftPaddle);
 		_leftScore = new Text("LeftScore", new Vec2(320-20 - 66, 10), leftText);
 		
 		//Right Score Text
-		var rightText = new PaddleTextComponent("digits.png","0", _rightPaddle);
+		var rightText = new TextDrawPaddleComponent("digits.png","0", _rightPaddle);
 		_rightScore = new Text("RightScore", new Vec2(320+20, 10),rightText);
 
 		//Booster 1 setup

@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Diagnostics;
+using System.Windows.Forms;
 using GaGame.GaEngine;
 using GaGame.GameObjects;
 
@@ -20,11 +21,13 @@ public class Paddle : Sprite
 
 	public override void ProcessInput()
 	{
+		Debug.Assert(_input != null);
 		_input.Update(this, _ball);
 	}
 	
 	public override void Update()
 	{
+		Debug.Assert(_physics != null);
 		_physics.Update(this, _ball);
 	}
 
@@ -35,8 +38,8 @@ public class Paddle : Sprite
 
 	public uint Score 
 	{
-		get {return _score; }
-	}	
+		get { return _score; }
+	}
 	
 
 }

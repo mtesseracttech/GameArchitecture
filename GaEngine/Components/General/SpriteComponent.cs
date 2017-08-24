@@ -4,10 +4,9 @@ using GaGame.GameObjects;
 
 namespace GaGame.GaEngine
 {
-    public class SpriteComponent
+    public class SpriteComponent : GraphicsComponent
     {
         private Image _image;
-        private IGraphics _graphicsService;
         
         public SpriteComponent(string imageFile)
         {
