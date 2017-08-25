@@ -5,7 +5,7 @@ using GaGame.GaEngine.Services.EventQueue;
 
 public class EventQueue: IEventQueue
 {
-    private List<Event> events = new List<Event>();
+        private List<Event> events = new List<Event>();
 
     public EventQueue()
     {		

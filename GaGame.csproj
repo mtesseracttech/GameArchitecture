@@ -54,7 +54,6 @@
     <Compile Include="Events\PickupEvent.cs" />
     <Compile Include="Events\ScoreEvent.cs" />
     <Compile Include="GaEngine\Command\BallCommand.cs" />
-    <Compile Include="GaEngine\Command\Command.cs" />
     <Compile Include="GaEngine\Command\PaddleCommand.cs" />
     <Compile Include="GaEngine\Components\Ball\BallBehaviourComponent.cs" />
     <Compile Include="GaEngine\Components\Ball\BallInputComponent.cs" />
