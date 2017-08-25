@@ -49,6 +49,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\EventQueue.cs" />
+    <Compile Include="Events\PickupEvent.cs" />
+    <Compile Include="Events\ScoreEvent.cs" />
     <Compile Include="GaEngine\Command\BallCommand.cs" />
     <Compile Include="GaEngine\Command\Command.cs" />
     <Compile Include="GaEngine\Command\PaddleCommand.cs" />
@@ -68,7 +72,7 @@
     <Compile Include="GaEngine\Components\Paddle\PaddlePhysicsComponent.cs" />
     <Compile Include="GaEngine\Components\Paddle\PaddlePhysicsAutoComponent.cs" />
     <Compile Include="GaEngine\Components\Paddle\PaddlePhysicsManualComponent.cs" />
-    <Compile Include="GaEngine\Components\Text\TextDrawPaddleComponent.cs" />
+    <Compile Include="GaEngine\Components\Text\TextScoreComponent.cs" />
     <Compile Include="GaEngine\Core\Game.cs" />
     <Compile Include="GaEngine\Core\GameObject.cs" />
     <Compile Include="GaEngine\Core\KeyInput.cs" />
@@ -78,6 +82,9 @@
     <Compile Include="GaEngine\Core\Sprite.cs" />
     <Compile Include="GaEngine\Core\Vec2.cs" />
     <Compile Include="GaEngine\Core\Window.cs" />
+    <Compile Include="GaEngine\Services\EventQueue\EventQueueLocator.cs" />
+    <Compile Include="GaEngine\Services\EventQueue\IEventQueue.cs" />
+    <Compile Include="GaEngine\Services\EventQueue\NullEventQueue.cs" />
     <Compile Include="GaEngine\Services\Graphics\GraphicsLocator.cs" />
     <Compile Include="GaEngine\Services\Graphics\IGraphics.cs" />
     <Compile Include="GaEngine\Services\Graphics\NullGraphics.cs" />
@@ -94,7 +101,6 @@
     <Compile Include="GameObjects\Booster.cs" />
     <Compile Include="GameObjects\Paddle.cs" />
     <Compile Include="GameObjects\Text.cs" />
-    <Compile Include="Managers\ScoreManager.cs" />
     <Compile Include="Utility\FrameCounter.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Time.cs" />

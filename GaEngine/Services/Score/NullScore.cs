@@ -2,6 +2,12 @@
 {
     public class NullScore : IScore
     {
-        
+        public void IncScore(Side side)
+        {
+        }
+
+        public void ResetScores()
+        {
+        }
     }
 }

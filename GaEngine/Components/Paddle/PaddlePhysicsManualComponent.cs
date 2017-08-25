@@ -11,9 +11,9 @@
 
     public override void OnCollision(object e, CollisionEventArgs args)
     {
-        if (args.Me is Paddle && args.Other is Ball)
+        if (args.One is Paddle && args.Other is Ball)
         {
-            BallXReflect((Ball)args.Other, (Paddle)args.Me);
+            BallXReflect((Ball)args.Other, (Paddle)args.One);
         }
     }
 }

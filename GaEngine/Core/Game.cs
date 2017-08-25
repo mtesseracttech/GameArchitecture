@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using GaGame.GaEngine.Services.Score;
 using GaGame.GameObjects;
 
 public class Game
@@ -45,14 +46,22 @@ public class Game
 	
 	public Game()
 	{
+		InitializeLocators();
+		_window = new Window( this );
+		_physicsHandler = new PhysicsHandler( new Vec2(_window.ClientSize.Width, _window.ClientSize.Height));
+		PhysicsLocator.ProvidePhysics(_physicsHandler);
+		ScoreLocator.ProvideScore(new ScoreManager());
+		EventQueueLocator.ProvideEventQueue(new EventQueue());
+	}
+
+	private void InitializeLocators()
+	{
 		InputLocator.Initialize();
 		PhysicsLocator.Initialize();
 		GraphicsLocator.Initialize();
-		_window = new Window( this );
-		Vec2 fieldSize = new Vec2(_window.ClientSize.Width, _window.ClientSize.Height);
-		_physicsHandler = new PhysicsHandler(fieldSize);
-		PhysicsLocator.ProvidePhysics(_physicsHandler);
-	}	
+		ScoreLocator.Initialize();
+		EventQueueLocator.Initialize();
+	}
 
 	private void Build() 
 	{
@@ -70,23 +79,28 @@ public class Game
 		//var leftPaddleInput = new PaddleInputAutoComponent(leftPaddlePhysics);
 		_leftPaddle = new Paddle("Left", new Vec2(10, 208), "paddle.png", _ball, leftPaddlePhysics, leftPaddleInput);
 
+
 		//Right paddle setup
 		var rightPaddlePhysics = new PaddlePhysicsAutoComponent();
 		var rightPaddleInput = new PaddleInputAutoComponent(rightPaddlePhysics);
 		_rightPaddle = new Paddle("Right", new Vec2(622, 208), "paddle.png", _ball, rightPaddlePhysics, rightPaddleInput);
 		
+		
 		//Left Score Text
-		var leftText = new TextDrawPaddleComponent("digits.png", "0", _leftPaddle);
+		var leftText = new TextScoreComponent("digits.png", "0", Side.Left);
 		_leftScore = new Text("LeftScore", new Vec2(320-20 - 66, 10), leftText);
 		
+		
 		//Right Score Text
-		var rightText = new TextDrawPaddleComponent("digits.png","0", _rightPaddle);
+		var rightText = new TextScoreComponent("digits.png","0", Side.Right);
 		_rightScore = new Text("RightScore", new Vec2(320+20, 10),rightText);
 
+		
 		//Booster 1 setup
 		var booster1Behaviour = new BoosterBehaviourComponent(_ball);
 		var booster1Physics = new BoosterPhysicsComponent(booster1Behaviour, _ball);
 		_booster1 = new Booster("Booster", new Vec2(304, 96), "booster.png", booster1Physics, booster1Behaviour);
+
 		
 		//Booster 2 setup
 		var booster2Behaviour = new BoosterBehaviourComponent(_ball);
@@ -109,7 +123,6 @@ public class Game
 		_physicsHandler.RegisterPhysicsComponent(_rightPaddle, rightPaddlePhysics);
 		_physicsHandler.RegisterPhysicsComponent(_booster1, booster1Physics);
 		_physicsHandler.RegisterPhysicsComponent(_booster2, booster2Physics);
-		
 		
 		SetGameSpeed(60); //Setting the default gamespeed
 	}
@@ -170,17 +183,6 @@ public class Game
 		foreach (var gameObject in _gameObjects)
 		{
 			gameObject.Update();
-		}
-		
-		if( _ball.Position.X < 0 ) 
-		{
-			_rightPaddle.IncScore();
-			_ball.Reset();
-		}		
-		if( _ball.Position.X > 640-16 ) 
-		{
-			_leftPaddle.IncScore();
-			_ball.Reset();
 		}
 	}
 

@@ -6,9 +6,9 @@ using GaGame.GameObjects;
 
 public class Text : GameObject
 {
-	private TextDrawPaddleComponent _graphics;
+	private TextScoreComponent _graphics;
 	
-	public Text(string name, Vec2 position, TextDrawPaddleComponent graphics) : base(name, position)
+	public Text(string name, Vec2 position, TextScoreComponent graphics) : base(name, position)
 	{
 		_graphics = graphics;
 	}
@@ -19,7 +19,7 @@ public class Text : GameObject
 		_graphics.Update(this);
 	}
 
-	public TextDrawPaddleComponent Graphics
+	public TextScoreComponent Graphics
 	{
 		get { return _graphics; }
 	}

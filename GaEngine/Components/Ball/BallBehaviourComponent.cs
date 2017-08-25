@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using GaGame.GaEngine;
+using GaGame.GaEngine.Services.Score;
 
 public enum StateBall
 {
@@ -12,19 +13,36 @@ public class BallBehaviourComponent : BehaviourComponent
 {
     private readonly BallPhysicsComponent _physics;
     private StateBall _stateBall;
+    private IScore _scoreService;
     
     public BallBehaviourComponent(BallPhysicsComponent physics)
     {
         _stateBall = StateBall.Inactive;
         _physics = physics;
+        _scoreService = ScoreLocator.GetScore();
     }
     
     public void Update(Ball ball)
     {
         Debug.Assert(ball != null);
-        if( _stateBall == StateBall.Active ) 
+        if (_stateBall == StateBall.Active)
         {
-            ball.Position.Add( _physics.Velocity );
+            ball.Position.Add(_physics.Velocity);
+        }
+        WinCheck(ball);
+    }
+
+    public void WinCheck(Ball ball)
+    {
+        if( ball.Position.X < 0 ) //Right wins
+        {
+            _scoreService.IncScore(Side.Right);
+            ball.Reset();
+        }		
+        if( ball.Position.X > 640-ball.Size.X ) //Left wins
+        {
+            _scoreService.IncScore(Side.Left);
+            ball.Reset();
         }
     }
     

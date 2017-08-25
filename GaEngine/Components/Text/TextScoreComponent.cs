@@ -2,19 +2,19 @@
 using System.Drawing;
 using GaGame.GaEngine;
 
-public class TextDrawPaddleComponent : GraphicsComponent
+public class TextScoreComponent : GraphicsComponent
 {
     private string _text;
     private Image _image;
-    private Paddle _paddle;
+    private Side _side;
     
-    public TextDrawPaddleComponent(string imageFile, string text, Paddle paddle)
+    public TextScoreComponent(string imageFile, string text, Side side)
     {
         _image = Image.FromFile( imageFile );
         _text = text;
-        _paddle = paddle;
         _graphicsService = GraphicsLocator.GetGraphics();
-        Debug.Assert(_paddle != null);
+        _side = side;
+        ScoreEvent.Handlers += OnScoreUpdate;
     }
     
     public void Update(Text text)
@@ -22,7 +22,7 @@ public class TextDrawPaddleComponent : GraphicsComponent
         Debug.Assert(text != null);
         
         int digits = 2;
-        string score = "000"+_paddle.Score;
+        string score = "000" + _text;
         for( int d=0; d<digits; d++ ) 
         { // 3 digits left to right
             int digit = score[ score.Length-digits + d ] - 48; // '0' => 0 etc
@@ -32,16 +32,20 @@ public class TextDrawPaddleComponent : GraphicsComponent
             _graphicsService.DrawSpriteSelection(_image, position, rectCorner, rectSize);
         }
     }
-    
-    public string Value 
+
+    private void OnScoreUpdate( object source, ScoreEvent e )
     {
-        get
+        if (e != null && e.Side == _side)
         {
-            return _text;
+            _text = e.Score.ToString();
         }
+    }
+    
+    /*public string Value 
+    {
         set 
         {
             _text = value;
         }
-    }
+    }*/
 }

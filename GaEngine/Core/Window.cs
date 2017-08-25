@@ -27,7 +27,7 @@ public class Window : Form
 		Show();
 		KeyInput.Register(this);
 		_context = new RenderContext();
-		_context.Register();
+		GraphicsLocator.ProvideGraphics(_context);
 	}
 	
 	protected override void OnPaint( PaintEventArgs e )  // adapter for caching repaints for updates

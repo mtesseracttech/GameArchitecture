@@ -8,6 +8,11 @@ public class NullPhysics : IPhysics
     {
     }
 
+    public Vec2 GameFieldBounds()
+    {
+        return new Vec2(0,0);
+    }
+
     public void RegisterPhysicsComponent(GameObject gameObject, PhysicsComponent physics)
     {
         Logger.Log("Failed to register a physicscomponent, because physics service is null");

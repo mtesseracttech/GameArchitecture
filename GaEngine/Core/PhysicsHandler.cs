@@ -32,11 +32,17 @@ public class PhysicsHandler : IPhysics
         }    
     }
 
+    public Vec2 GameFieldBounds()
+    {
+        return _fieldBounds;
+    }
+
     public void RegisterPhysicsComponent(GameObject gameObject, PhysicsComponent physics)
     {
+        Debug.Assert(gameObject != null && physics != null);
         if (!_pairs.ContainsKey(gameObject))
         {
-            _pairs.Add(gameObject, physics);//_pairs[gameObject] = physics;
+            _pairs.Add(gameObject, physics);
             Logger.Log("Successfully Registered " + gameObject.Name + " in the Physics Handler " + _pairs.Count, LogType.Debug);
         }
         else
@@ -69,18 +75,17 @@ public class PhysicsHandler : IPhysics
     }
 }
 
-
 public class CollisionEventArgs : EventArgs
 {
-    private GameObject _me;
+    private GameObject _one;
     private GameObject _other;
     
-    public CollisionEventArgs(GameObject me, GameObject other)
+    public CollisionEventArgs(GameObject one, GameObject other)
     {
-        _me = me;
+        _one = one;
         _other = other;
     }
 
-    public GameObject Me { get { return _me; } }
+    public GameObject One { get { return _one; } }
     public GameObject Other{ get {return _other;} }
 }

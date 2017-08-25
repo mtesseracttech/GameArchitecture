@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using GaGame.GaEngine;
+using GaGame.GaEngine.Services.Score;
 using GaGame.GameObjects;
 
 public class BallPhysicsComponent : PhysicsComponent
@@ -10,13 +11,13 @@ public class BallPhysicsComponent : PhysicsComponent
     private readonly Vec2 _speed;
     private Size _playfieldSize;
 
+
     public BallPhysicsComponent(Vec2 velocity, Vec2 speed, Size playfieldSize)
     {
         _velocity = velocity;
         _speed = speed;
         _playfieldSize = playfieldSize;
         Debug.Assert(_playfieldSize != null);
-        
     }
         
     public void Update(Ball ball)

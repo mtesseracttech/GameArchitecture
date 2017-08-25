@@ -6,11 +6,6 @@ namespace GaGame.GameObjects
     public class RenderContext : IGraphics
     {
         private Graphics _graphics;
-
-        public void Register()
-        {
-            GraphicsLocator.ProvideGraphics(this);
-        }
         
         public void SetGraphics(Graphics graphics)
         {
