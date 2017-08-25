@@ -27,12 +27,13 @@ public class BoosterBehaviourComponent : BehaviourComponent
 
     private void DeBoost(object sender,  Time.TimeoutEvent timeout)
     {
-        _ball.DeBoost(); //No idea how to get ball here through a direct line, so I had to store it in the class
+        _ball.DeBoost();
         _state = BoosterState.Active;
     }
 
     public void BoostBall(Ball ball)
     {
+        Debug.Assert(ball != null);
         _state = BoosterState.Inactive;
         _ball.Boost();
         Time.Timeout( "Deboosting", 0.5f, DeBoost );
@@ -40,6 +41,7 @@ public class BoosterBehaviourComponent : BehaviourComponent
     
     public void Reset(Booster booster) 
     {
+        Debug.Assert(booster != null);
         booster.Position.X = 320-8;
         booster.Position.Y = 240-8;
     }

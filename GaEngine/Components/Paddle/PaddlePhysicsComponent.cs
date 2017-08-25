@@ -14,8 +14,14 @@
 
     protected void TopBottomCheck(Paddle paddle)
     {
-        if( paddle.Position.Y < 0 )   paddle.Position.Y = 0;
-        if( paddle.Position.Y > 416 ) paddle.Position.Y = 416;
+        if (paddle.Position.Y < 0)
+        {
+            paddle.Position.Y = 0;
+        }
+        if (paddle.Position.Y > _physicsService.GameFieldBounds().Y - paddle.Size.Y)
+        {
+            paddle.Position.Y = _physicsService.GameFieldBounds().Y - paddle.Size.Y;
+        }
     }
 
     protected void BallXReflect(Ball ball, Paddle paddle)

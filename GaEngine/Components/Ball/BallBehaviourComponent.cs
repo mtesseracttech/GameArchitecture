@@ -46,12 +46,6 @@ public class BallBehaviourComponent : BehaviourComponent
         }
     }
     
-    public StateBall BallState
-    {
-        get { return _stateBall; }
-        set { _stateBall = value; }
-    }
-    
     public void Reset(Ball ball) //not really sure where this method should be... has both properties of physics and behaviour to it
     {
         ball.Position.X = 320-8;

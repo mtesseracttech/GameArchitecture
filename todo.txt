@@ -1,6 +1,5 @@
 Work left to do:
 
-Sequence Diagrams
 Improving State
 Extra Behaviours
 Update Diagrams
