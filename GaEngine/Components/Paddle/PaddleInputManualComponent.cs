@@ -1,19 +1,25 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing.Text;
+using System.Windows.Forms;
+using GaGame.GaEngine;
 
 public class PaddleInputManualComponent : PaddleInputComponent
 {
-    private IInput _input;
-    
+    private PaddleCommand _up;
+    private PaddleCommand _down;
     
     public PaddleInputManualComponent(PaddlePhysicsComponent physics) : base(physics)
     {
-        _input = InputLocator.GetInput();
+        _up = new PedalCommandMoveUp();
+        _down = new PedalCommandMoveDown();
     }
 
     public override void Update(Paddle paddle, Ball ball)
     {
         _physics.Velocity.Y = 0;
-        if ( _input.Pressed( Keys.Up ) ) _physics.Velocity.Y = -_physics.Speed;
-        if ( _input.Pressed( Keys.Down ) ) _physics.Velocity.Y = _physics.Speed;
+
+        if (_inputService.Pressed(Keys.Up))   _up.Execute(paddle);
+        if (_inputService.Pressed(Keys.Down)) _down.Execute(paddle);
     }
+    
+    
 }

@@ -49,11 +49,15 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GaEngine\Command\BallCommand.cs" />
+    <Compile Include="GaEngine\Command\Command.cs" />
+    <Compile Include="GaEngine\Command\PaddleCommand.cs" />
     <Compile Include="GaEngine\Components\Ball\BallBehaviourComponent.cs" />
     <Compile Include="GaEngine\Components\Ball\BallInputComponent.cs" />
     <Compile Include="GaEngine\Components\Ball\BallPhysicsComponent.cs" />
     <Compile Include="GaEngine\Components\Booster\BoosterBehaviourComponent.cs" />
     <Compile Include="GaEngine\Components\Booster\BoosterPhysicsComponent.cs" />
+    <Compile Include="GaEngine\Components\General\BehaviourComponent.cs" />
     <Compile Include="GaEngine\Components\General\GraphicsComponent.cs" />
     <Compile Include="GaEngine\Components\General\InputComponent.cs" />
     <Compile Include="GaEngine\Components\General\PhysicsComponent.cs" />
@@ -69,7 +73,8 @@
     <Compile Include="GaEngine\Core\GameObject.cs" />
     <Compile Include="GaEngine\Core\KeyInput.cs" />
     <Compile Include="GaEngine\Core\RenderContext.cs" />
-    <Compile Include="GaEngine\Core\Simple2DPhysics.cs" />
+    <Compile Include="GaEngine\Core\PhysicsHandler.cs" />
+    <Compile Include="GaEngine\Core\ScoreManager.cs" />
     <Compile Include="GaEngine\Core\Sprite.cs" />
     <Compile Include="GaEngine\Core\Vec2.cs" />
     <Compile Include="GaEngine\Core\Window.cs" />
@@ -82,10 +87,14 @@
     <Compile Include="GaEngine\Services\Physics\IPhysics.cs" />
     <Compile Include="GaEngine\Services\Physics\NullPhysics.cs" />
     <Compile Include="GaEngine\Services\Physics\PhysicsLocator.cs" />
+    <Compile Include="GaEngine\Services\Score\IScore.cs" />
+    <Compile Include="GaEngine\Services\Score\NullScore.cs" />
+    <Compile Include="GaEngine\Services\Score\ScoreLocator.cs" />
     <Compile Include="GameObjects\Ball.cs" />
     <Compile Include="GameObjects\Booster.cs" />
     <Compile Include="GameObjects\Paddle.cs" />
     <Compile Include="GameObjects\Text.cs" />
+    <Compile Include="Managers\ScoreManager.cs" />
     <Compile Include="Utility\FrameCounter.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Time.cs" />

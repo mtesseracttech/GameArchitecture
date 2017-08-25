@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using GaGame.GaEngine;
 
 public enum StateBall
 {
@@ -7,7 +8,7 @@ public enum StateBall
     Inactive
 }
 
-public class BallBehaviourComponent
+public class BallBehaviourComponent : BehaviourComponent
 {
     private readonly BallPhysicsComponent _physics;
     private StateBall _stateBall;

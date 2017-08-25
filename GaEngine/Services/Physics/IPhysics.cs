@@ -1,4 +1,8 @@
-﻿public interface IPhysics
+﻿using GaGame.GameObjects;
+
+public interface IPhysics
 {
-    bool Intersects(Vec2 thisPosition, Vec2 thisSize, Vec2 otherPosition, Vec2 otherSize);
+    void Intersects(GameObject obj1, GameObject obj2, Vec2 obj1Size, Vec2 obj2Size);
+
+    void RegisterPhysicsComponent(GameObject gameObject, PhysicsComponent physics);
 }

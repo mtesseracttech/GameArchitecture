@@ -19,7 +19,7 @@ public class Ball : Sprite
 
 	public override void ProcessInput()
 	{
-		_input.Update();
+		_input.Update(this);
 	}
 
 	public override void Update()
@@ -53,6 +53,21 @@ public class Ball : Sprite
 	public Vec2 Velocity
 	{
 		get{ return _physics.Velocity; }
+	}
+
+	public BallBehaviourComponent Behaviour
+	{
+		get { return _behaviour; }
+	}
+
+	public BallInputComponent Input
+	{
+		get { return _input; }
+	}
+
+	public BallPhysicsComponent Physics
+	{
+		get { return _physics; }
 	}
 }
 

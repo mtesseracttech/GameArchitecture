@@ -5,17 +5,20 @@ using GaGame.GaEngine;
 public class BallInputComponent : InputComponent
 {
     private readonly BallBehaviourComponent _behaviour;
+    private BallCommand _keyP;
+    
     
     public BallInputComponent(BallBehaviourComponent behaviour)
     {
         _behaviour = behaviour;
+        _keyP = new PauseCommand();
     }
 
-    public void Update()
+    public void Update(Ball ball)
     {
-        if( _inputService.Enter( Keys.P ) ) 
+        if (_inputService.Enter(Keys.P))
         {
-            _behaviour.TogglePause();
+            _keyP.Execute(ball);
         }
     }
 }

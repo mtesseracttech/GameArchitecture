@@ -25,6 +25,17 @@ public class Booster : Sprite
 	{   
 		Debug.Assert(_behaviour != null);
 		_behaviour.Update(this);
+		_physics.Update(this);
+	}
+
+	public BoosterPhysicsComponent Physics
+	{
+		get { return _physics; }
+	}
+	
+	public BoosterBehaviourComponent Behaviour
+	{
+		get { return _behaviour; }
 	}
 }
 

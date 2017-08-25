@@ -52,4 +52,4 @@ public class BallPhysicsComponent : PhysicsComponent
     {
         get { return _speed; }
     }
-}
+}  

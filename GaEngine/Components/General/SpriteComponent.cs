@@ -11,7 +11,6 @@ namespace GaGame.GaEngine
         public SpriteComponent(string imageFile)
         {
             _image = Image.FromFile( imageFile );
-            _graphicsService = GraphicsLocator.GetGraphics();
         }
         
         public void Update(Sprite sprite)

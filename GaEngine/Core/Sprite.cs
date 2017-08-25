@@ -26,5 +26,10 @@ namespace GaGame.GameObjects
         {
             get { return new Vec2( _graphics.Image.Width, _graphics.Image.Height ); }
         }
+        
+        public SpriteComponent Graphics
+        {
+            get { return _graphics; }
+        }
     }
 }

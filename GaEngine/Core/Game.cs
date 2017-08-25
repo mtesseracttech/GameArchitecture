@@ -38,7 +38,7 @@ public class Game
 	private Booster _booster2;
 
 	private List<GameObject> _gameObjects;
-	
+	private PhysicsHandler _physicsHandler;
 
 	int _ticksPerSecond = 60;
 	private float _timePerUpdate; //Time per update in seconds
@@ -49,7 +49,9 @@ public class Game
 		PhysicsLocator.Initialize();
 		GraphicsLocator.Initialize();
 		_window = new Window( this );
-		new Simple2DPhysics().Register();
+		Vec2 fieldSize = new Vec2(_window.ClientSize.Width, _window.ClientSize.Height);
+		_physicsHandler = new PhysicsHandler(fieldSize);
+		PhysicsLocator.ProvidePhysics(_physicsHandler);
 	}	
 
 	private void Build() 
@@ -59,12 +61,13 @@ public class Game
 		var ballBehaviour = new BallBehaviourComponent(ballPhysics);
 		var ballInput =  new BallInputComponent(ballBehaviour);
 		_ball = new Ball("Ball", new Vec2(312,232) , "ball.png", ballPhysics, ballInput, ballBehaviour);
+
 		
 		//Left paddle setup
 		//var leftPaddlePhysics = new PaddlePhysicsManualComponent(); //Uncomment for manual mode
-		//var leftPaddleInput = new PaddleInputManualComponent(leftPaddlePhysics);
 		var leftPaddlePhysics = new PaddlePhysicsAutoComponent();
-		var leftPaddleInput = new PaddleInputAutoComponent(leftPaddlePhysics);
+		var leftPaddleInput = new PaddleInputManualComponent(leftPaddlePhysics);
+		//var leftPaddleInput = new PaddleInputAutoComponent(leftPaddlePhysics);
 		_leftPaddle = new Paddle("Left", new Vec2(10, 208), "paddle.png", _ball, leftPaddlePhysics, leftPaddleInput);
 
 		//Right paddle setup
@@ -81,13 +84,13 @@ public class Game
 		_rightScore = new Text("RightScore", new Vec2(320+20, 10),rightText);
 
 		//Booster 1 setup
-		var booster1Physics = new BoosterPhysicsComponent();
-		var booster1Behaviour = new BoosterBehaviourComponent(booster1Physics, _ball);
+		var booster1Behaviour = new BoosterBehaviourComponent(_ball);
+		var booster1Physics = new BoosterPhysicsComponent(booster1Behaviour, _ball);
 		_booster1 = new Booster("Booster", new Vec2(304, 96), "booster.png", booster1Physics, booster1Behaviour);
 		
 		//Booster 2 setup
-		var booster2Physics = new BoosterPhysicsComponent();
-		var booster2Behaviour = new BoosterBehaviourComponent(booster2Physics, _ball);
+		var booster2Behaviour = new BoosterBehaviourComponent(_ball);
+		var booster2Physics = new BoosterPhysicsComponent(booster2Behaviour,_ball);
 		_booster2 = new Booster("Booster", new Vec2(304, 384), "booster.png", booster2Physics, booster2Behaviour);
 
 		_gameObjects = new List<GameObject> //To make the update loops a bit cleaner
@@ -100,6 +103,13 @@ public class Game
 			_booster1,
 			_booster2
 		};
+		
+		_physicsHandler.RegisterPhysicsComponent(_ball, ballPhysics);
+		_physicsHandler.RegisterPhysicsComponent(_leftPaddle,leftPaddlePhysics);
+		_physicsHandler.RegisterPhysicsComponent(_rightPaddle, rightPaddlePhysics);
+		_physicsHandler.RegisterPhysicsComponent(_booster1, booster1Physics);
+		_physicsHandler.RegisterPhysicsComponent(_booster2, booster2Physics);
+		
 		
 		SetGameSpeed(60); //Setting the default gamespeed
 	}

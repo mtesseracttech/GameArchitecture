@@ -18,5 +18,10 @@ public class Text : GameObject
 		Debug.Assert(_graphics != null);
 		_graphics.Update(this);
 	}
+
+	public TextDrawPaddleComponent Graphics
+	{
+		get { return _graphics; }
+	}
 }
 

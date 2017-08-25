@@ -41,8 +41,8 @@
         get { return _speed; }
     }
 
-    protected bool HitsBall(Paddle paddle, Ball ball)
+    protected void CheckBallCollision(Paddle paddle, Ball ball)
     {
-        return _physicsService.Intersects(paddle.Position, paddle.Size, ball.Position, ball.Size);
+        _physicsService.Intersects(paddle, ball, paddle.Size, ball.Size);
     }
 }

@@ -40,8 +40,17 @@ public class Paddle : Sprite
 	{
 		get { return _score; }
 	}
-	
 
+
+	public PaddlePhysicsComponent Physics
+	{
+		get {return _physics;}
+	} 
+	
+	public PaddleInputComponent Input
+	{
+		get {return _input;}
+	}
 }
 
 

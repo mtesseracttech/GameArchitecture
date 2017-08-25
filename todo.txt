@@ -1,0 +1,10 @@
+Work left to do:
+
+//Command Pattern
+Event Queue
+//Collision Events
+Sequence Diagrams
+Improving State
+Extra Behaviours
+Update Diagrams
+Assertions
